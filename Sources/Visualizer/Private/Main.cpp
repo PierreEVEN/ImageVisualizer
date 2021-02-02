@@ -4,6 +4,7 @@
 #include "OpenGLContext.h"
 #include "imgui.h"
 #include <filesystem>
+#include <iostream>
 
 int main(int argc, char** argv)
 {
@@ -36,6 +37,7 @@ int main(int argc, char** argv)
 		
 		ImageViewer::DisplayAll();
 		OpenGLContext::EndFrame();
+
 	}
 
 	OpenGLContext::Shutdown();

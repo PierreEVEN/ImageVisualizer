@@ -40,7 +40,7 @@ void OpenGLContext::Init() {
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 	glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
 
-	WindowHandle = glfwCreateWindow(800, 600, "Pure3D - OpenGL", 0, 0);
+	WindowHandle = glfwCreateWindow(1000, 1000, "Pure3D - OpenGL", 0, 0);
 	if (!WindowHandle) std::cerr << "Failed to create Glfw window handle" << std::endl;
 	glfwMakeContextCurrent(WindowHandle);
 	glfwSetFramebufferSizeCallback(WindowHandle, &ResizeCallback);
@@ -85,9 +85,9 @@ bool OpenGLContext::ShouldClose() {
 void OpenGLContext::BeginFrame() {
 
 	if (!WindowHandle) std::cerr << "null window" << std::endl;
-
+	
 	glfwPollEvents();
-
+	
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
@@ -97,7 +97,7 @@ void OpenGLContext::BeginFrame() {
 void OpenGLContext::EndFrame()
 {
 	ImGui::Render();
-	glClearColor(.2, 0, 0, 1);
+	glClearColor(.2f, 0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

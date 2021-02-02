@@ -1,6 +1,28 @@
 #pragma once
 #include <string>
 #include <cstdint>
+#include <vector>
+#include "imageModifier.h"
+
+struct ImageData
+{
+	ImageData(uint8_t* SourceData, uint32_t SourceSizeX, uint32_t SourceSizeY, uint32_t SourceChannels)
+	: SizeX(SourceSizeX), SizeY(SourceSizeY), Channels(SourceChannels) {
+		Data = new uint8_t[SizeX * SizeY * Channels];
+		std::memcpy(Data, SourceData, SizeX * SizeY * Channels);
+	}
+
+	~ImageData()
+	{
+		delete Data;
+	}
+
+	
+	uint8_t* Data;
+	const uint32_t SizeX;
+	const uint32_t SizeY;
+	const uint32_t Channels;
+};
 
 class ImageViewer
 {
@@ -8,57 +30,35 @@ public:
 	ImageViewer();
 	static void DisplayAll();
 	void LoadFromFile(const std::string& FilePath);
+	
 	void UpdateBaseData(uint8_t* Data, int sX, int sY, int inChannels);
+	
+	void ApplyTransformation();
 
 private:
 	void Display();
 
 	bool bIsTextureInitialized = false;
 	uint32_t TextureID;
-	uint8_t* ImageData = nullptr;
-	uint8_t* TransformedData = nullptr;
-	uint64_t Value;
+	uint8_t* ImageBaseData = nullptr;
+	uint64_t ImageID;
 	bool bDisplay = true;
-public:
-
-private:
 
 	int SizeX = 0, SizeY = 0, Channels = 0;
-	time_t LastUpdateTime = 0;
 	
 	void DrawMenuBar();
-	void UpdateTransformedInfos();
+		
+	size_t ModifierCount = 0;
 
-	void ResetData();
-	void ApplyTransformation();
-	void UpdateHistogram();
-	
-	/**
-	 * Infos
-	 */
-	uint64_t ValueSum = 0;
-	uint8_t PixelMin = 0;
-	uint8_t PixelMax = 0;
-	double AverageGrayScale = 0.0;
+	template<typename ModifierClass>
+	void AddModifier(const std::string& Name)	{
+		ImageModifier* modifier = new ModifierClass();
+		modifier->Parent = this;
+		modifier->ModifierID = ModifierCount++;
+		modifier->Name = Name;
+		Modifiers.push_back(modifier);
+		ApplyTransformation();
+	}
 
-	/**
-	 * Settings
-	 */
-	bool bNegate = false;
-	bool bClamp = false;
-	bool bThreshold = false;
-	bool bStretch = false;
-	int ThresholdValue = 127;
-	int MinRange = 0;
-	int MaxRange = 255;
-	int MinStretch = 0;
-	int MaxStretch = 255;
-	
-	/**
-	 * Histogram
-	 */	
-	void DrawHistogram();
-	bool bShowHistogram = false;
-	float* HistogramData = nullptr;
-	float HistogramMax = 0;
+	std::vector<ImageModifier*> Modifiers;
 };
