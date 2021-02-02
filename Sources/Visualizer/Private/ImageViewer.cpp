@@ -12,8 +12,8 @@
 
 #include "stb_image.h"
 #include "GL/gl3w.h"
-#include "ImageOperations.h"
 #include "Modifiers/Clamp.h"
+#include "Modifiers/Histogram.h"
 #include "Modifiers/Negate.h"
 #include "Modifiers/StretchContrast.h"
 #include "Modifiers/Threshold.h"
@@ -49,6 +49,7 @@ void ImageViewer::DrawMenuBar() {
 			if (ImGui::MenuItem("Clamp")) AddModifier<ClampModifier>("Clamp");
 			if (ImGui::MenuItem("Threshold")) AddModifier<ThresholdModifier>("Threshold");
 			if (ImGui::MenuItem("Normalize")) AddModifier<NormalizerModifier>("Normalize");
+			if (ImGui::MenuItem("Histogram")) AddModifier<Histogram>("Histogram");
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
