@@ -13,6 +13,7 @@
 #include "stb_image.h"
 #include "GL/gl3w.h"
 #include "Modifiers/Clamp.h"
+#include "Modifiers/Equalizer.h"
 #include "Modifiers/Histogram.h"
 #include "Modifiers/Negate.h"
 #include "Modifiers/StretchContrast.h"
@@ -50,6 +51,7 @@ void ImageViewer::DrawMenuBar() {
 			if (ImGui::MenuItem("Threshold")) AddModifier<ThresholdModifier>("Threshold");
 			if (ImGui::MenuItem("Normalize")) AddModifier<NormalizerModifier>("Normalize");
 			if (ImGui::MenuItem("Histogram")) AddModifier<Histogram>("Histogram");
+			if (ImGui::MenuItem("Equalizer")) AddModifier<Equalizer>("Equalizer");
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
