@@ -6,7 +6,9 @@
 
 void ClampModifier::DrawUI() {
 	IntSlider("Range min", &Min, 0, 255);
+	if (Min > Max) Max = Min;
 	IntSlider("Range max", &Max, 0, 255);
+	if (Max > Min) Min = Max;
 }
 
 void ClampModifier::ModifyImage(ImageData* Data) {

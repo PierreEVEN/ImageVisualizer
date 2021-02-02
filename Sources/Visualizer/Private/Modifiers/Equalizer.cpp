@@ -1,17 +1,7 @@
 
 #include "Modifiers/Equalizer.h"
 
-#include <iostream>
-
-
 #include "ImageViewer.h"
-
-void Equalizer::DrawUI()
-{
-
-
-	
-}
 
 void Equalizer::ModifyImage(ImageData* Data)
 {

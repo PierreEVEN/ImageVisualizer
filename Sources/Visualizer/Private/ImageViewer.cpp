@@ -91,7 +91,7 @@ void ImageViewer::Display() {
 		for (const auto& Modifier : Modifiers) {
 			Modifier->DrawUI_Internal();
 		}
-		ImGui::Image(reinterpret_cast<ImTextureID>(TextureID), ImVec2(static_cast<float>(SizeX), static_cast<float>(SizeY)));		
+		ImGui::Image(reinterpret_cast<void*>(static_cast<uint64_t>(TextureID)), ImVec2(static_cast<float>(SizeX), static_cast<float>(SizeY)));		
 	}
 	ImGui::End();
 }
