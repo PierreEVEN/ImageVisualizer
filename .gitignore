@@ -12,3 +12,5 @@ Saved/
 **/Makefile
 **/CMakeFiles/
 **/CMakeCache.txt
+
+imgui.ini
