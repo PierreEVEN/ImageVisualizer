@@ -20,8 +20,10 @@ protected:
 	void OnModified();
 	size_t ModifierID = 0;
 
+	void DragFloat(const std::string& name, double* value);
 	void IntSlider(const std::string& name, int* Value, int Min, int Max);
 	void Checkbox(const std::string& name, bool* Value);
+	void MatrixView(double* Matrix, size_t SizeX, size_t SizeY);
 
 private:
 	void DrawUI_Internal();

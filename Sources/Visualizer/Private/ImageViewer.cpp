@@ -13,6 +13,7 @@
 #include "stb_image.h"
 #include "GL/gl3w.h"
 #include "Modifiers/Clamp.h"
+#include "Modifiers/Convolution.h"
 #include "Modifiers/Equalizer.h"
 #include "Modifiers/Histogram.h"
 #include "Modifiers/Negate.h"
@@ -52,6 +53,7 @@ void ImageViewer::DrawMenuBar() {
 			if (ImGui::MenuItem("Normalize")) AddModifier<NormalizerModifier>("Normalize");
 			if (ImGui::MenuItem("Histogram")) AddModifier<Histogram>("Histogram");
 			if (ImGui::MenuItem("Equalizer")) AddModifier<Equalizer>("Equalizer");
+			if (ImGui::MenuItem("Convolution")) AddModifier<ConvolutionModifier>("Convolution");
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();

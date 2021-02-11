@@ -1,5 +1,7 @@
 
 
+#include <iostream>
+
 #include "imageModifier.h"
 #include "ImageViewer.h"
 #include "imgui.h"
@@ -13,9 +15,21 @@ void ImageModifier::DrawUI_Internal()
 	if (Enable) DrawUI();
 }
 
-void ImageModifier::IntSlider(const std::string& name, int* Value, int Min, int Max) {
+void ImageModifier::DragFloat(const std::string& name, double* value)
+{
+	float OldValue = static_cast<float>(*value);
+	float NewValue = OldValue;
+	ImGui::DragFloat((name + "_##" + std::to_string(ModifierID)).c_str(), &NewValue);
+
+	if (NewValue != OldValue) {
+		*value = static_cast<double>(NewValue);
+	}
+	
+}
+
+void ImageModifier::IntSlider(const std::string& name, int* Value, int Min = 0, int Max = 255) {
 	int CurrentValue = *Value;
-	ImGui::SliderInt((name + "_##" + std::to_string(ModifierID)).c_str(), &CurrentValue, 0, 255);
+	ImGui::SliderInt((name + "_##" + std::to_string(ModifierID)).c_str(), &CurrentValue, Min, Max);
 	if (CurrentValue != *Value) {
 		*Value = CurrentValue;
 		OnModified();
@@ -31,6 +45,20 @@ void ImageModifier::Checkbox(const std::string& name, bool* Value)
 		*Value = CurrentValue;
 		OnModified();
 	}
+}
+
+void ImageModifier::MatrixView(double* Matrix, size_t SizeX, size_t SizeY)
+{
+	ImGui::Columns(SizeX);
+	for (size_t X = 0; X < SizeX; ++X)
+	{
+		for (size_t Y = 0; Y < SizeY; ++Y)
+		{
+			DragFloat("##" + std::to_string(X + Y * SizeX), &Matrix[X + Y * SizeX]);
+			ImGui::NextColumn();
+		}
+	}
+	ImGui::Columns(1);
 }
 
 void ImageModifier::ModifyImage_Internal(ImageData* Data) {
