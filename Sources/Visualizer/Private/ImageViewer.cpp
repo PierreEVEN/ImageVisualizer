@@ -13,9 +13,15 @@
 #include "stb_image.h"
 #include "GL/gl3w.h"
 #include "Modifiers/Clamp.h"
+#include "Modifiers/Close.h"
+#include "Modifiers/Open.h"
 #include "Modifiers/Convolution.h"
+#include "Modifiers/Dilate.h"
 #include "Modifiers/Equalizer.h"
+#include "Modifiers/Erode.h"
+#include "Modifiers/ExtractBorder.h"
 #include "Modifiers/Histogram.h"
+#include "Modifiers/MedianFilter.h"
 #include "Modifiers/Negate.h"
 #include "Modifiers/StretchContrast.h"
 #include "Modifiers/Threshold.h"
@@ -54,6 +60,12 @@ void ImageViewer::DrawMenuBar() {
 			if (ImGui::MenuItem("Histogram")) AddModifier<Histogram>("Histogram");
 			if (ImGui::MenuItem("Equalizer")) AddModifier<Equalizer>("Equalizer");
 			if (ImGui::MenuItem("Convolution")) AddModifier<ConvolutionModifier>("Convolution");
+			if (ImGui::MenuItem("Median filter")) AddModifier<MedianFilterModifier>("Median Filter");
+			if (ImGui::MenuItem("Dilate")) AddModifier<DilateModifier>("Dilate");
+			if (ImGui::MenuItem("Erode")) AddModifier<ErodeFilter>("Erode");
+			if (ImGui::MenuItem("Open")) AddModifier<OpenModifier>("Open");
+			if (ImGui::MenuItem("Close")) AddModifier<CloseModifier>("Close");
+			if (ImGui::MenuItem("Extract border")) AddModifier<ExtractBorderFilter>("Extract border");
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
@@ -89,11 +101,10 @@ void ImageViewer::Display() {
 	
 	if (ImGui::Begin(("Image " + std::to_string(ImageID)).c_str(), &bDisplay, ImGuiWindowFlags_MenuBar)) {
 		DrawMenuBar();
-
+		ImGui::Image(reinterpret_cast<void*>(static_cast<uint64_t>(TextureID)), ImVec2(static_cast<float>(SizeX), static_cast<float>(SizeY)));
 		for (const auto& Modifier : Modifiers) {
 			Modifier->DrawUI_Internal();
-		}
-		ImGui::Image(reinterpret_cast<void*>(static_cast<uint64_t>(TextureID)), ImVec2(static_cast<float>(SizeX), static_cast<float>(SizeY)));		
+		}	
 	}
 	ImGui::End();
 }
@@ -126,12 +137,3 @@ void ImageViewer::ApplyTransformation() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	if (TempData) free(TempData);
 }
-
-/*
-void ImageViewer::DrawHistogram() {
-	if (!bShowHistogram || !HistogramData) return;
-	
-	ImGui::PlotHistogram("Color histogram", HistogramData, 255, 0, NULL, 0.0f, HistogramMax, ImVec2(550.f, 200.f));
-}
-*/
-

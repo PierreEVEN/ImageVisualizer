@@ -23,6 +23,7 @@ protected:
 	void DragFloat(const std::string& name, double* value);
 	void IntSlider(const std::string& name, int* Value, int Min, int Max);
 	void Checkbox(const std::string& name, bool* Value);
+	uint8_t GetPixelSafe(ImageData* Data, int64_t PosX, int64_t PosY);
 	void MatrixView(double* Matrix, size_t SizeX, size_t SizeY);
 
 private:

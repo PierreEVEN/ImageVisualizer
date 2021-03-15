@@ -47,9 +47,20 @@ void ImageModifier::Checkbox(const std::string& name, bool* Value)
 	}
 }
 
+
+uint8_t ImageModifier::GetPixelSafe(ImageData* Data, int64_t PosX, int64_t PosY)
+{
+	PosX = PosX < 0 ? -PosX : PosX > Data->SizeX ? Data->SizeX * 2 - PosX : PosX;
+	PosY = PosY < 0 ? -PosY : PosY > Data->SizeY ? Data->SizeY * 2 - PosY : PosY;
+
+
+	return Data->Data[PosX + PosY * Data->SizeX];
+}
+
+
 void ImageModifier::MatrixView(double* Matrix, size_t SizeX, size_t SizeY)
 {
-	ImGui::Columns(SizeX);
+	ImGui::Columns(static_cast<int>(SizeX));
 	for (size_t X = 0; X < SizeX; ++X)
 	{
 		for (size_t Y = 0; Y < SizeY; ++Y)

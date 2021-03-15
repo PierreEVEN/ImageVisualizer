@@ -3,6 +3,7 @@
 #include "ImageViewer.h"
 #include "OpenGLContext.h"
 #include "imgui.h"
+#include "BinaryMask.h"
 #include <filesystem>
 #include <iostream>
 
@@ -17,7 +18,6 @@ int main(int argc, char** argv)
 		if (ImGui::BeginMainMenuBar()) {
 			if (ImGui::BeginMenu("Load")) {
 
-				//std::
 				std::filesystem::path Path = std::filesystem::path("Images");
 				if (std::filesystem::exists(Path)) {
 					for (auto& File : std::filesystem::directory_iterator(Path))
@@ -31,7 +31,16 @@ int main(int argc, char** argv)
 				}
 				
 				ImGui::EndMenu();
-			}			
+			}
+			if (ImGui::BeginMenu("Import mask"))
+			{
+				if (ImGui::MenuItem("default mask"))
+				{
+					Binarymask::DEFAULT_MASK = std::make_shared<Binarymask>("Images/mask.msk");
+				}
+				
+				ImGui::EndMenu();
+			}
 			ImGui::EndMainMenuBar();
 		}
 		
