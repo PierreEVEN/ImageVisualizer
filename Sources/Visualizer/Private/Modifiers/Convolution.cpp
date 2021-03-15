@@ -96,7 +96,9 @@ void ConvolutionModifier::ModifyImage(ImageData* Data) {
 		}
 	}
 	else Sum = 1;
-	
+
+	uint8_t* newData = new uint8_t[Data->SizeX * Data->SizeY * Data->Channels];
+	std::memcpy(newData, Data->Data, Data->SizeX * Data->SizeY * Data->Channels);
 	
 	for (int64_t X = 0; X < Data->SizeX; ++X)
 	{
@@ -110,9 +112,12 @@ void ConvolutionModifier::ModifyImage(ImageData* Data) {
 			}
 			if (bNormalize) Total /= Sum;
 
-			Data->Data[X + Y * Data->SizeX] = static_cast<uint8_t>(Total);			
+			newData[X + Y * Data->SizeX] = static_cast<uint8_t>(Total);
 		}
-	}	
+	}
+
+	memcpy(Data->Data, newData, Data->SizeX * Data->SizeY * Data->Channels);	
+	std::free(newData);
 }
 
 void ConvolutionModifier::ApplyPreset(const Preset& inPreset)

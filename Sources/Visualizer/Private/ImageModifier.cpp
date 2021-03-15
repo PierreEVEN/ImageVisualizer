@@ -23,6 +23,7 @@ void ImageModifier::DragFloat(const std::string& name, double* value)
 
 	if (NewValue != OldValue) {
 		*value = static_cast<double>(NewValue);
+		OnModified();
 	}
 	
 }
